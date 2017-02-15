@@ -46,21 +46,28 @@ void Graph:: display()
  }
 }
 
+adjacencyList & Graph :: getAdjacencyList()
+{
+  return m_adjList;
+}
 void Graph:: reverse()
 {
-  Graph revg = new Graph();
-  for (auto adjList : m_adjList)
+  Graph *revg = new Graph();
+  for (auto &adjList : m_adjList)
   {
-    for (auto valItem : adjList)
+    for (auto valItem : adjList.second)
     {
-      size_t keyIndex = revg.findkey(valItem);
-      if( keyIndex != std::string::npos)
+      adjacencyList adj = revg->getAdjacencyList();
+      auto keyIndexItr = adj.find(valItem);
+      if( keyIndexItr != adj.end())
       {
-        revg[keyIndex].push_back(adjList->first);
+        (keyIndexItr->second).push_back(adjList.first);
       }
       else
       {
-        revg.insert(std::pair(valItem, adjList->first);
+        vector<string> revOutEdges;
+        revOutEdges.push_back(adjList.first);
+        revg->getAdjacencyList().insert(std::pair<string, vector<string>>(valItem, revOutEdges));
       }
     }
   }
@@ -122,7 +129,6 @@ int main(int argc, char *argv [])
       }
    }
  } 
-}
 
  for (auto adjList : graphList)
  {
