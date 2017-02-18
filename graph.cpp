@@ -34,15 +34,13 @@ Graph& Graph:: operator = (Graph && grRef)
 }
 void Graph:: display()
 {
- adjacencyList::iterator itr = m_adjList.begin();
- for( ; itr != m_adjList.end(); itr++ );
+
+ for (auto adjList : m_adjList)
  {
-   cout << "Key \t" << itr->first << "Value \t";
-   for ( auto vec : itr->second)
-   { 
-    cout << vec << " ";
-   }
-   cout << endl;
+   cout << endl << adjList.first << "=>";
+   for( auto vec : adjList.second)
+     cout << vec << " "; 
+   cout <<endl;
  }
 }
 
@@ -52,14 +50,14 @@ adjacencyList & Graph :: getAdjacencyList()
 }
 void Graph:: reverse()
 {
-  Graph *revg = new Graph();
-  for (auto &adjList : m_adjList)
+  adjacencyList orig_adjacencyList = m_adjList;
+  adjacencyList revAdjList;
+  for (auto &adjList : orig_adjacencyList)
   {
     for (auto valItem : adjList.second)
     {
-      adjacencyList adj = revg->getAdjacencyList();
-      auto keyIndexItr = adj.find(valItem);
-      if( keyIndexItr != adj.end())
+      auto keyIndexItr = revAdjList.find(valItem);
+      if( keyIndexItr != revAdjList.end())
       {
         (keyIndexItr->second).push_back(adjList.first);
       }
@@ -67,10 +65,11 @@ void Graph:: reverse()
       {
         vector<string> revOutEdges;
         revOutEdges.push_back(adjList.first);
-        revg->getAdjacencyList().insert(std::pair<string, vector<string>>(valItem, revOutEdges));
+        revAdjList.insert(std::pair<string, vector<string>>(valItem, revOutEdges));
       }
     }
   }
+  m_adjList = revAdjList;
 }
 
 int main(int argc, char *argv [])
@@ -105,8 +104,8 @@ int main(int argc, char *argv [])
      
      size_t index1 = strNodeList.find_first_of(" ");
      size_t index2 = strNodeList.find_last_of(" ");
-     cout << "Space Index" << index1 <<endl;
-     cout<< "Return Index" << index2 << endl;
+//     cout << "Space Index" << index1 <<endl;
+//     cout<< "Return Index" << index2 << endl;
      
    
      if( index1 != std::string::npos && index2 != std::string::npos)
@@ -129,14 +128,9 @@ int main(int argc, char *argv [])
       }
    }
  } 
-
- for (auto adjList : graphList)
- {
-   cout << endl << adjList.first << "=>";
-   for( auto vec : adjList.second)
-     cout << vec << " "; 
-   cout <<endl;
- }
-  
+ Graph orig(graphList);
+ orig.display();
+ orig.reverse();
+ orig.display(); 
 }
 
