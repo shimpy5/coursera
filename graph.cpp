@@ -43,7 +43,20 @@ void Graph:: display()
    cout <<endl;
  }
 }
-
+void dfs(string &strKey)
+{
+ unordered_map visitedMap;
+ vector<string> strAdjList = m_adjacencyList.find(strKey).second;
+ for( auto val : strAdjList)
+ { 
+   if( visitedMap.find(val) == npos)
+   {
+ 	cout << val << endl;
+        visitedMap.insert(make_pair<string, bool>(val, true));
+        dfs(val);	
+   }
+ } 
+}
 adjacencyList & Graph :: getAdjacencyList()
 {
   return m_adjList;
