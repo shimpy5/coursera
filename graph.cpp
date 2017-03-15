@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "graph.h"
 #include <string.h>
+#include <unordered_set>
 /*Changing comments for git*/
 using namespace std;
 
@@ -43,19 +44,30 @@ void Graph:: display()
    cout <<endl;
  }
 }
-void dfs(string &strKey)
+
+void Graph :: dfs_impl(string &strKey)
 {
- unordered_map visitedMap;
- vector<string> strAdjList = m_adjacencyList.find(strKey).second;
+ unordered_set<string> visitedSet;
+ visitedSet.resize(m_adjList.size())
+ unordered_set<string>::iterator keyItr = m_adjList.find(strKey);
+ if( keyItr != m_adjList.end())
+ {
+ vector<string> strAdjList = keyItr.second;
  for( auto val : strAdjList)
- { 
-   if( visitedMap.find(val) == npos)
+ {	
+   unordered_set<string> visitedValItr = visitedSet.find(val); 
+   if( visitedValItr != visitedSet.end())
    {
  	cout << val << endl;
-        visitedMap.insert(make_pair<string, bool>(val, true));
-        dfs(val);	
+        visitedSet.insert(val);
+        dfs_impl(val);
    }
- } 
+ }
+ }
+}
+void dfs(string &strKey)
+{
+  dfs_impl(strKey);
 }
 adjacencyList & Graph :: getAdjacencyList()
 {
@@ -144,6 +156,9 @@ int main(int argc, char *argv [])
  Graph orig(graphList);
  orig.display();
  orig.reverse();
+ orig.display();
+ string nodeVal="22";
+ orig.dfs(nodeVal);
  orig.display(); 
 }
 

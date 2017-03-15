@@ -20,6 +20,7 @@ public:
    const vector<string> & getEdgesAt(const string &vertex);
    void setEdgesAt(const string &vertex, vector<string> &vecEdges);
    void display();
-   void reverse(); 
-   
+   void reverse();
+   void dfs(string &strKey); 
+   void dfs_impl(string &strKey);
 };
