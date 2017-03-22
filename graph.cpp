@@ -56,9 +56,9 @@ void Graph :: dfs_impl(string &strKey)
  for( auto val : strAdjList)
  {	
    auto visitedValItr = visitedSet.find(val); 
-   if( visitedValItr != visitedSet.end())
+   if( visitedValItr == visitedSet.end())
    {
- 	cout << endl << "DFS key found" << val << endl;
+ 	cout << endl << "DFS key not found" << val << endl;
         visitedSet.insert(val);
         dfs_impl(val);
    }
@@ -69,6 +69,7 @@ void Graph :: dfs_impl(string &strKey)
 }
 void Graph::dfs(string &strKey)
 {
+  cout << endl << "Starting DFS" << endl;
   dfs_impl(strKey);
 }
 adjacencyList & Graph :: getAdjacencyList()
@@ -123,7 +124,7 @@ int main(int argc, char *argv [])
    {
       strKey = strNodeList.substr(index, found);
       index = found;
-      cout << strKey << endl;
+//      cout << strKey << endl;
    }   
    if(strKey.length() > 0)
    {
