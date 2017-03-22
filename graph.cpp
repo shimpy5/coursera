@@ -48,24 +48,26 @@ void Graph:: display()
 void Graph :: dfs_impl(string &strKey)
 {
  unordered_set<string> visitedSet;
- visitedSet.resize(m_adjList.size())
- unordered_set<string>::iterator keyItr = m_adjList.find(strKey);
+ //visitedSet.resize(m_adjList.size())
+ auto keyItr = m_adjList.find(strKey);
  if( keyItr != m_adjList.end())
  {
- vector<string> strAdjList = keyItr.second;
+ vector<string> strAdjList = keyItr->second;
  for( auto val : strAdjList)
  {	
-   unordered_set<string> visitedValItr = visitedSet.find(val); 
+   auto visitedValItr = visitedSet.find(val); 
    if( visitedValItr != visitedSet.end())
    {
- 	cout << val << endl;
+ 	cout << endl << "DFS key found" << val << endl;
         visitedSet.insert(val);
         dfs_impl(val);
    }
  }
  }
+ else
+   cout << endl << "DFS key not found" << endl;
 }
-void dfs(string &strKey)
+void Graph::dfs(string &strKey)
 {
   dfs_impl(strKey);
 }
@@ -159,6 +161,6 @@ int main(int argc, char *argv [])
  orig.display();
  string nodeVal="22";
  orig.dfs(nodeVal);
- orig.display(); 
+// orig.display(); 
 }
 
