@@ -9,7 +9,9 @@ using namespace std;
 
 Graph::Graph(map<string, vector<string>> &map_AdjList)
 {
-  m_adjList = map_AdjList;  
+  m_adjList = map_AdjList;
+  m_time = 0;
+  m_startVertex = "0";
 }
 
 Graph::Graph(const Graph &&ref)
@@ -22,6 +24,9 @@ Graph& Graph:: operator = (const Graph &grRef)
  {
    m_adjList.clear();
    m_adjList = grRef.m_adjList;
+   m_time = grRef.m_time;
+   m_visited  = grRef.m_visited;
+   m_startVertex = grRef.m_startVertex;
  }
 }
 Graph& Graph:: operator = (Graph && grRef)
@@ -30,7 +35,12 @@ Graph& Graph:: operator = (Graph && grRef)
   {
      m_adjList.clear();
      m_adjList = grRef.m_adjList;
+     m_time = grRef.m_time;
+     m_visited  = grRef.m_visited ;
+     m_startVertex = grRef.m_startVertex;
      grRef.m_adjList.clear();
+     grRef.m_time = 0;
+     grRef.m_visited .clear();
   }
 }
 void Graph:: display()
@@ -47,22 +57,27 @@ void Graph:: display()
 
 void Graph :: dfs_impl(string &strKey)
 {
- unordered_set<string> visitedSet;
- //visitedSet.resize(m_adjList.size())
+// static unordered_set<string> m_visited Set;
+// m_visited Set.resize(m_adjList.size())
+ 
+ auto cmp = [] (long left, long right) { return (left < right); };
+ static priority_queue<long, vector<pair<long, string>, decltype(cmp)> pq(cmp); 
+  
  auto keyItr = m_adjList.find(strKey);
  if( keyItr != m_adjList.end())
  {
- vector<string> strAdjList = keyItr->second;
- for( auto val : strAdjList)
- {	
-   auto visitedValItr = visitedSet.find(val); 
-   if( visitedValItr == visitedSet.end())
+  for( auto val : keyItr.second)
+  { 
+   auto  ValItr = m_visited.find(val); 
+   if( ValItr == m_visited.end())
    {
  	cout << endl << "DFS key not found" << val << endl;
-        visitedSet.insert(val);
+        m_visited.insert(val);
         dfs_impl(val);
    }
- }
+  }
+  m_time++;
+  pq.push(pair<long, string>(m_time, strKey)); 
  }
  else
    cout << endl << "DFS key not found" << endl;
@@ -70,8 +85,39 @@ void Graph :: dfs_impl(string &strKey)
 void Graph::dfs(string &strKey)
 {
   cout << endl << "Starting DFS" << endl;
-  dfs_impl(strKey);
+    
+  //dfs_impl(strKey);
 }
+
+void Graph :: dfs_impl_kosaraju(string strNode)
+{
+  m_visited.insert(strNode);
+  //static map<string, string> leader;
+  m_leader.insert(pair<string,string>p(strNode, startVertex));
+  dfs_impl(strNode);
+   
+}
+void DFS_Kosaraju :: dfs_loop_rev()
+{
+ //static long time = 0;
+ //auto cmp = [] (long left, long right) { return (left < right); }
+ //static unordered_set<string> m_visited ;
+ //priority_queue<long, vector<pair<long, string>, decltype(cmp)> pq(cmp);
+ pair<string, vector<string>> pGNode;
+ 
+ for (auto &pGNode : m_graph.getAdjacencyList())
+ {
+   auto  ValItr = m_visited.find(pGNode.first);
+   if(ValItr == m_visited.end())
+   {
+     m_startVertex = pGNode.first;
+     dfs_impl_kosaraju(pGNode.first);
+   }
+ } 
+ 
+}
+
+
 adjacencyList & Graph :: getAdjacencyList()
 {
   return m_adjList;
@@ -99,6 +145,12 @@ void Graph:: reverse()
   }
   m_adjList = revAdjList;
 }
+
+DFS_Kosaraju :: DFS_Kosaraju(Graph &grRef)
+{
+  m_graph = grRef;
+}
+
 
 int main(int argc, char *argv [])
 {
@@ -162,6 +214,7 @@ int main(int argc, char *argv [])
  orig.display();
  string nodeVal="22";
  orig.dfs(nodeVal);
+ orig.dfs_loop_rev();
 // orig.display(); 
 }
 
