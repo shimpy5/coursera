@@ -7,7 +7,7 @@ DFS_Kosaraju :: DFS_Kosaraju(Graph &grRef)
   m_graph = grRef;
 }
 
-void DFS_kosaraju :: dfs_impl1(string strKey)
+void DFS_Kosaraju  :: dfs_impl1(string strKey)
 {
   m_visited.insert(strKey);
 //  m_leader.insert(pair<string, string> p(m_startVertex,strKey));
@@ -25,7 +25,7 @@ void DFS_kosaraju :: dfs_impl1(string strKey)
   m_pq.push(node);
 }
 
-void DFS_kosaraju :: dfs_impl2(string strkey)
+void DFS_Kosaraju  :: dfs_impl2(string strkey)
 {
   m_visited.insert(strKey);
   m_leader.insert(pair<string, string> p(m_startVertex, strKey));
@@ -56,7 +56,7 @@ void DFS_Kosaraju :: dfs_loop1()
  } 
 } 
 
-void DFS_kosaraju :: dfs_loop2()
+void DFS_Kosaraju  :: dfs_loop2()
 {
   m_visited.clear();
   pair<string, vector<string>> pGNode;
@@ -72,7 +72,7 @@ void DFS_kosaraju :: dfs_loop2()
 
 }
 
-int DFS_kosaraju :: strongComponentCount()
+int DFS_Kosaraju  :: strongComponentCount()
 {
  set<string>countSet;
  for (auto leaderItr : m_leader)
@@ -81,6 +81,4 @@ int DFS_kosaraju :: strongComponentCount()
  }
  return countSet.size();
 }
-    
- } 
-}
+
