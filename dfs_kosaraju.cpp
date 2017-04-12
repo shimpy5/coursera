@@ -1,4 +1,5 @@
 #include <iostream>
+#include <set>
 #include "dfs_kosaraju.h"
 
 DFS_Kosaraju :: DFS_Kosaraju(Graph &grRef)
@@ -69,4 +70,17 @@ void DFS_kosaraju :: dfs_loop2()
     }
   }
 
+}
+
+int DFS_kosaraju :: strongComponentCount()
+{
+ set<string>countSet;
+ for (auto leaderItr : m_leader)
+ {
+    countSet.insert(leaderItr.first);
+ }
+ return countSet.size();
+}
+    
+ } 
 }
