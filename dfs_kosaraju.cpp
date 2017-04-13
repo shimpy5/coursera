@@ -13,7 +13,7 @@ void DFS_Kosaraju  :: dfs_impl1(string strKey)
 //  m_leader.insert(pair<string, string> p(m_startVertex,strKey));
   auto itrDFSNode = m_graph.getAdjacencyList().find(strKey);
   
-  for ( auto outgoingNodesItr : itrDFSNode.second)
+  for ( auto outgoingNodesItr : itrDFSNode->second)
   {
      if(m_visited.find(outgoingNodesItr) == m_visited.end())
      {
@@ -27,11 +27,11 @@ void DFS_Kosaraju  :: dfs_impl1(string strKey)
 
 void DFS_Kosaraju  :: dfs_impl2(string strkey)
 {
-  m_visited.insert(strKey);
-  m_leader.insert(pair<string, string> p(m_startVertex, strKey));
-  auto itrDFSNode = m_graph.getAdjacencyList().find(strKey);
+  m_visited.insert(strkey);
+  m_leader.insert(pair<string, string> (m_startVertex, strkey));
+  auto itrDFSNode = m_graph.getAdjacencyList().find(strkey);
   
-  for (auto outgoingNodesItr : itrDFSNode.second)
+  for (auto outgoingNodesItr : itrDFSNode->second)
   {
      if(m_visited.find(outgoingNodesItr) == m_visited.end())
      {
@@ -51,7 +51,7 @@ void DFS_Kosaraju :: dfs_loop1()
 
    if(ValItr == m_visited.end())
    {
-     dfs_impl1(pGNode.first);
+     dfs_impl1(pRevGNode.first);
    }
  } 
 } 
@@ -60,19 +60,25 @@ void DFS_Kosaraju  :: dfs_loop2()
 {
   m_visited.clear();
   pair<string, vector<string>> pGNode;
-  for ( pq pNode = m_pq.pop(); m_graph.getAdjacencyList().find(pNode.strKey) != m_graph.getAdjacencyList().end() && m_pq.empty() == false; )
+ 
+  DFS_Kosaraju::pqNode pNode = m_pq.top();
+ 
+  for ( ; m_graph.getAdjacencyList().find(pNode.strKey) != m_graph.getAdjacencyList().end() && m_pq.empty() == false; )
   {
+    m_pq.pop();
     auto gNodeItr = m_visited.find(pGNode.first);
     if (gNodeItr == m_visited.end())
     {
     	m_startVertex = pNode.strKey;
     	dfs_impl2(pNode.strKey);
     }
+    m_pq.pop();
+    pNode = m_pq.top();
   }
 
 }
 
-int DFS_Kosaraju  :: strongComponentCount()
+int DFS_Kosaraju :: strongComponentCount()
 {
  set<string>countSet;
  for (auto leaderItr : m_leader)

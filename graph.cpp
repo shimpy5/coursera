@@ -10,8 +10,8 @@ using namespace std;
 Graph::Graph(map<string, vector<string>> &map_AdjList)
 {
   m_adjList = map_AdjList;
-  m_time = 0;
-  m_startVertex = "0";
+ // m_time = 0;
+  //m_startVertex = "0";
 }
 
 Graph::Graph(const Graph &&ref)
@@ -24,9 +24,9 @@ Graph& Graph:: operator = (const Graph &grRef)
  {
    m_adjList.clear();
    m_adjList = grRef.m_adjList;
-   m_time = grRef.m_time;
-   m_visited  = grRef.m_visited;
-   m_startVertex = grRef.m_startVertex;
+  // m_time = grRef.m_time;
+   //m_visited  = grRef.m_visited;
+  // m_startVertex = grRef.m_startVertex;
  }
 }
 Graph& Graph:: operator = (Graph && grRef)
@@ -35,12 +35,12 @@ Graph& Graph:: operator = (Graph && grRef)
   {
      m_adjList.clear();
      m_adjList = grRef.m_adjList;
-     m_time = grRef.m_time;
-     m_visited  = grRef.m_visited ;
-     m_startVertex = grRef.m_startVertex;
+    // m_time = grRef.m_time;
+     //m_visited  = grRef.m_visited ;
+    // m_startVertex = grRef.m_startVertex;
      grRef.m_adjList.clear();
-     grRef.m_time = 0;
-     grRef.m_visited .clear();
+     //grRef.m_time = 0;
+     //grRef.m_visited .clear();
   }
 }
 void Graph:: display()
@@ -55,7 +55,7 @@ void Graph:: display()
  }
 }
 
-void Graph :: dfs_impl(string &strKey)
+/*void Graph :: dfs_impl(string &strKey)
 {
 // static unordered_set<string> m_visited Set;
 // m_visited Set.resize(m_adjList.size())
@@ -115,7 +115,7 @@ void DFS_Kosaraju :: dfs_loop_rev()
    }
  } 
  
-}
+}*/
 
 
 adjacencyList & Graph :: getAdjacencyList()
@@ -146,10 +146,10 @@ void Graph:: reverse()
   m_adjList = revAdjList;
 }
 
-DFS_Kosaraju :: DFS_Kosaraju(Graph &grRef)
+/*DFS_Kosaraju :: DFS_Kosaraju(Graph &grRef)
 {
   m_graph = grRef;
-}
+}*/
 
 
 int main(int argc, char *argv [])
@@ -212,9 +212,9 @@ int main(int argc, char *argv [])
  orig.display();
  orig.reverse();
  orig.display();
- string nodeVal="22";
- orig.dfs(nodeVal);
- orig.dfs_loop_rev();
+ //string nodeVal="22";
+ //orig.dfs(nodeVal);
+ //orig.dfs_loop_rev();
 // orig.display(); 
 }
 
