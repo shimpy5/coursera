@@ -13,7 +13,10 @@ Graph::Graph(map<string, vector<string>> &map_AdjList)
  // m_time = 0;
   //m_startVertex = "0";
 }
-
+Graph::Graph(const Graph &grRef)
+{
+  m_adjList = grRef.m_adjList;
+}
 Graph::Graph(const Graph &&ref)
 {
   *this = std::move(ref);
@@ -152,7 +155,7 @@ void Graph:: reverse()
 }*/
 
 
-int main(int argc, char *argv [])
+/*int main(int argc, char *argv [])
 {
  cout << "My name is shimpy" << endl;
  ifstream file;
@@ -216,5 +219,5 @@ int main(int argc, char *argv [])
  //orig.dfs(nodeVal);
  //orig.dfs_loop_rev();
 // orig.display(); 
-}
+}*/
 

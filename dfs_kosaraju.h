@@ -6,6 +6,7 @@
 #include <queue>
 #include "graph.h"
 using namespace std;
+void resetdfscount();
 class DFS_Kosaraju
 {
 private:
@@ -35,13 +36,14 @@ private:
   string m_startVertex;
   priority_queue <pqNode, vector<pqNode>, pqNodeCompare> m_pq;
   multimap<string, string> m_leader;
-  void dfs_loop1();
-  void dfs_loop2();
   void dfs_impl1(string strKey);
   void dfs_impl2(string strKey);
-  
 public:
   DFS_Kosaraju(Graph &gr);
+  void dfs_loop1();
+  void dfs_loop2();
   //run();
   int strongComponentCount();
+  
+  void plaindfs(string strKey);  
 };
